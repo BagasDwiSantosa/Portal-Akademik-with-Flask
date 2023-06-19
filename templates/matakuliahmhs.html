@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- <link rel="stylesheet" type="text/css" media="screen"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/> -->
+        <link
+            href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css'
+            rel='stylesheet'>
+        <!-- Boxicons -->
+        <link rel="stylesheet" href="{{url_for('static', filename='css/CRUD.css')}}">
+        <link
+            href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css'
+            rel='stylesheet'>
+        <!-- My CSS -->
+        
+        <link rel="stylesheet" href="{{url_for('static', filename='css/adminstyle.css')}}">
+
+        <title>Mata Kuliah Mahasiswa</title>
+    </head>
+    <body>
+
+        <!-- SIDEBAR -->
+        <section id="sidebar">
+            <a href="{{url_for('dashboard_mahasiswa')}}" class="brand">
+                <i class='bx bxs-smile'></i>
+                <span class="text">Mahasiswa</span>
+            </a>
+            <ul class="side-menu top">
+                <li>
+                    <a href="{{url_for('dashboard_mahasiswa')}}">
+                        <i class='bx bxs-dashboard'></i>
+                        <span class="text">Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{url_for('profile_mahasiswa')}}">
+                        <i class='bx bxs-user-circle'></i>
+                        <span class="text">Profile</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{{url_for('matakuliah_mahasiswa')}}">
+                        <i class='bx bx-book'></i>
+                        <span class="text">Mata Kuliah</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{url_for('laporanhasilstudi')}}">
+                        <i class='bx bxs-bookmarks'></i>
+                        <span class="text">Laporan Hasil Studi</span>
+                    </a>
+                </li>
+            </ul>
+            <ul class="side-menu">
+                <li>
+                    <a href="{{url_for('logout')}}" class="logout">
+                        <i class='bx bxs-log-out' ></i>
+                        <span class="text">Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </section>
+        <!-- SIDEBAR -->
+
+        <!-- CONTENT -->
+        <section id="content">
+            <!-- NAVBAR -->
+            <nav>
+                <i class='bx bx-menu'></i>
+                <a href="#" class="nav-link">Categories</a>
+                <form action="#">
+                    <div class="form-input">
+                        <input type="search" placeholder="Search...">
+                        <button type="submit" class="search-btn">
+                            <i class='bx bx-search'></i>
+                        </button>
+                    </div>
+                </form>
+                <input type="checkbox" id="switch-mode" hidden="hidden">
+                <label for="switch-mode" class="switch-mode"></label>
+                <a href="#" class="notification">
+                    <i class='bx bxs-bell'></i>
+                    <!-- <span class="num">8</span> -->
+                </a>
+                <a href="#" class="profile">
+                    <img
+                        src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg">
+                </a>
+            </nav>
+            <!-- NAVBAR -->
+            <!-- MAIN -->
+            <main>
+                <div class="head-title">
+                    <div class="left">
+                        <h1>Mata Kuliah</h1>
+                        <ul class="breadcrumb">
+                            <li>
+                                <a class="active" href="#">Home</a>
+                            </li>
+                            <li>
+                                <i class='bx bx-chevron-right'></i>
+                            </li>
+                            <li>
+                                <a href="#">MataKuliah</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <a href="#" class="btn-download">
+                        <i class='bx bxs-cloud-download'></i>
+                        <span class="text">Download PDF</span>
+                    </a>
+                </div>
+            </h2>
+        </h2>
+        <div class="container">
+            <div class="table-wrapper">
+                <div class="table-title">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h2>Data
+                                <b>Mata Kuliah</b>
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+                {% block body %}
+                    <div class="container">
+                        <div class="starter-template">
+                            <!-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Tambah Data
+                            </button> -->
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <!-- <td>No</td> -->
+                                    <td>Mata Kuliah</td>
+                                    <td>SKS</td>
+                                    <td>Dosen Pengampu</td>
+                                    <!-- <td>Password</td> -->
+                                    <!-- <td>Aksi</td> -->
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for row in matkul %}
+                                    <tr>
+                                        <td>{{ row.0 }}</td>
+                                        <td>{{ row.1 }}</td>
+                                        <td>{{ row.2 }}</td>
+                                        <!-- <td>{{ row.3 }}</td>
+                                        <td>{{ row.4 }}</td> -->
+                                        <!-- <td>
+                                            <a href="#!" class="btn btn-warning btn-xs" data-toggle="modal"
+                                               data-target="#modalEdit{{ row.0 }}">Edit</a>
+                                            <a href="/hapus-matakuliah/{{ row.0 }}" class="btn btn-danger btn-xs"
+                                               onclick="return confirm('Yakin ingin hapus?')">Hapus</a>
+                                        </td> -->
+                                    </tr>
+                                    <!-- Modal -->
+                                    <div id="modalEdit{{ row.0 }}" class="modal fade" role="dialog">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    <!-- <h4 class="modal-title">Edit Data</h4> -->
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="{{ url_for('update') }}" method="POST">
+                                                        <div class="form-group">
+                                                            <label>Nama Matakuliah:</label>
+                                                            <input type="hidden" name="id" value="{{ row.0 }}">
+                                                            <input type="text" class="form-control" name="nama" value="{{ row.0 }}">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Jumlah SKS:</label>
+                                                            <input type="hidden" name="id" value="{{ row.0 }}">
+                                                            <input type="text" class="form-control" name="nama" value="{{ row.1 }}">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Dosen Pengampu:</label>
+                                                            <input type="hidden" name="id" value="{{ row.0 }}">
+                                                            <input type="text" class="form-control" name="nama" value="{{ row.2 }}">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <button class="btn btn-warning" type="submit">Update</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <!-- <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                </div> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="3">Unbelievable. No entries here so far</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                
+                    <!-- Modal -->
+                    <div id="myModal" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Tambah Data</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{{ url_for('simpan_matkul') }}" method="POST">
+                                        <div class="form-group">
+                                            <label>Nama Matkul:</label>
+                                            <input type="text" class="form-control" name="matkul">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Jumlah SKS:</label>
+                                            <input type="text" class="form-control" name="sks">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Dosen Pengampu:</label>
+                                            <input type="text" class="form-control" name="dosen">
+                                        </div>
+                                        <div class="form-group">
+                                            <button class="btn btn-primary" type="submit">Simpan</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.container -->
+                {% endblock %}
+                
+                
+            </div>
+        </div>
+    </main>
+    <!-- MAIN -->
+</section>
+<!-- CONTENT -->
+<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>    
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> 
+<script src="{{url_for('static', filename='/js/adminscript.js')}}"></script>
+</body>
+</html>
