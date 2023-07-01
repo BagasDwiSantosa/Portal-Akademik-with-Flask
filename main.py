@@ -199,7 +199,7 @@ def profile_mahasiswa():
 @app.route('/dosen', methods=('GET', 'POST'))
 def dosen():
     cur = mysql.connection.cursor()
-    cur.execute("SELECT nama, NPM, username FROM computer WHERE level = 'Dosen'")
+    cur.execute("SELECT id, nama, NPM, username FROM computer WHERE level = 'Dosen'")
     rv = cur.fetchall()
     cur.close()
     return render_template('admindos.html', computers=rv)
@@ -229,7 +229,7 @@ def registrasi():
 @app.route('/mahasiswa', methods=('GET', 'POST'))
 def mahasiswa():
     cur = mysql.connection.cursor()
-    cur.execute("SELECT nama, NPM, username FROM computer WHERE level = 'Mahasiswa'")
+    cur.execute("SELECT id, nama, NPM, username FROM computer WHERE level = 'Mahasiswa'")
     rv = cur.fetchall()
     cur.close()
     return render_template('adminmah.html', computers=rv)
@@ -247,7 +247,7 @@ def mahasiswa_dosen():
 @app.route('/matakuliah', methods=('GET', 'POST'))
 def matakuliah():
     cur = mysql.connection.cursor()
-    cur.execute("SELECT nama_matkul,sks,dosen FROM matakuliah")
+    cur.execute("SELECT id, nama_matkul,sks,dosen FROM matakuliah")
     rv = cur.fetchall()
     cur.close()
     return render_template('matkul.html', matkul=rv)
@@ -256,7 +256,7 @@ def matakuliah():
 @app.route('/matakuliah-dosen', methods=('GET', 'POST'))
 def matakuliah_dosen():
     cur = mysql.connection.cursor()
-    cur.execute("SELECT nama_matkul, sks, dosen FROM matakuliah")
+    cur.execute("SELECT id, nama_matkul, sks, dosen FROM matakuliah")
     rv = cur.fetchall()
     cur.close()
     return render_template('dosenmatkul.html', matkul=rv)
@@ -440,16 +440,49 @@ def update():
     mysql.connection.commit()
     return redirect(url_for('registrasi'))
 
-@app.route('/update-registrasi-mhs', methods=["POST"])
-def update_mhs():
-    id_a = request.form['id']
+@app.route('/update-dsn', methods=["POST"])
+def update_dsn():
+    id_data = request.form['id']
     nama = request.form['nama']
     npm = request.form['npm']
     username = request.form['username']
     cur = mysql.connection.cursor()
-    cur.execute("UPDATE computer SET nama=%s, npm=%s, username=%s WHERE id=%s", (nama, npm,username,))
+    cur.execute("UPDATE computer SET nama=%s, npm=%s, username=%s WHERE id=%s", (nama, npm,username,id_data))
+    mysql.connection.commit()
+    return redirect(url_for('dosen'))
+
+@app.route('/update-mhs', methods=["POST"])
+def update_mhs():
+    id_data = request.form['id']
+    nama = request.form['nama']
+    npm = request.form['npm']
+    username = request.form['username']
+    cur = mysql.connection.cursor()
+    cur.execute("UPDATE computer SET nama=%s, npm=%s, username=%s WHERE id=%s", (nama, npm,username,id_data))
     mysql.connection.commit()
     return redirect(url_for('mahasiswa'))
+
+@app.route('/update-mtklh', methods=["POST"])
+def update_mtklh():
+    id_data = request.form['id']
+    nama = request.form['nama']
+    sks = request.form['sks']
+    dosen = request.form['dosen']
+    cur = mysql.connection.cursor()
+    cur.execute("UPDATE matakuliah SET nama_matkul=%s, sks=%s, dosen=%s WHERE id=%s", (nama, sks,dosen,id_data))
+    mysql.connection.commit()
+    return redirect(url_for('matakuliah'))
+
+@app.route('/update-mtklh-dsn', methods=["POST"])
+def update_mtklh_dsn():
+    id_data = request.form['id']
+    nama = request.form['nama']
+    sks = request.form['sks']
+    dosen = request.form['dosen']
+    cur = mysql.connection.cursor()
+    cur.execute("UPDATE matakuliah SET nama_matkul=%s, sks=%s, dosen=%s WHERE id=%s", (nama, sks,dosen,id_data))
+    mysql.connection.commit()
+    return redirect(url_for('matakuliah_dosen'))
 
 @app.route('/hapus/<string:id_data>', methods=["GET"])
 def hapus(id_data):
